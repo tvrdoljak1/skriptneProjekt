@@ -1,0 +1,2 @@
+# skriptneProjekt
+Projekt dio
