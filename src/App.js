@@ -1,51 +1,38 @@
-import React from 'react';
+import React, { Component } from "react";
 import Titles from "./components/Titles";
 import Form from "./components/Form";
 import Weather from "./components/Weather";
 
-const api_key = "11eccb7b8c45fd5a66fe79eee070f8db";
-const howManyDays = 5;
+const API_KEY = "11eccb7b8c45fd5a66fe79eee070f8db";
 
-
-class App extends React.Component{
-
-
-
+class App extends Component {
   getWeather = async (e) => {
-
     e.preventDefault();
     const city = e.target.elements.city.value;
     const country = e.target.elements.country.value;
 
-    //   OVA LINIJA KODA RADI ALI ONA MI SAMO PRIKAZIVA TRENUTNU TEMPERATURU GRADA.
+    // current weather data for one location
+    // const response = await fetch(
+    //   `http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`
+    // );
 
-  const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${api_key}&units=metric`);
+    // 16 day / daily forecast data is not available under Free pricing model (https://openweathermap.org/price)
+    // instead, you can use API call for 5 day / 3 hour forecast data
+    const response = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city},${country}&appid=${API_KEY}&units=metric`);
 
-
-    // MENI TRIBA OVA LINIJA KODA ZA PRIKAZ TEMPERATURE NAREDNIH 5 DANA ALI NE RADI. PISE DA MI KEY NIJE UREDU
-
-  //const api_call = await fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?q=${city},${country}&cnt=${howManyDays}&appid=${api_key}`);
-
- 
-    const data = await api_call.json();
+    const data = await response.json();
     console.log(data);
+  };
 
-  }
-  render(){
-    return(
-
+  render() {
+    return (
       <div>
-
         <Titles />
-        <Form getWeather={this.getWeather}/>
+        <Form getWeather={this.getWeather} />
         <Weather />
-
       </div>
-
     );
   }
-
-};
+}
 
 export default App;
-
